@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kingify</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #1DB954;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;  
+            font-size: 16px; 
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;  
+            font-weight: 600;
+        }
+
+        header .upload-link {
+            color: white;
+            text-decoration: none;
+            background-color: #1ED760;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        header .upload-link:hover {
+            background-color: #1AAE44;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+        .song-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #1A1A1A;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .song-item:hover {
+            background-color: #282828;
+        }
+        .song-item img {
+            margin-right: 20px;
+            border-radius: 5px;
+            width: 100px;
+            height: 100px;
+        }
+        .song-info {
+            flex-grow: 1;
+        }
+        .song-info b {
+            font-size: 18px;
+            color: #1DB954;
+        }
+        .song-info p {
+            margin: 5px 0;
+            color: #bbb;
+        }
+        .song-info audio {
+            width: 100%;
+            max-width: 400px;
+            margin-top: 10px;
+            display: none; 
+        }
+        .upload-link {
+            display: block;
+            text-align: center;
+            margin-top: 5px;
+            color: #1DB954;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 10px;
+            border-radius: 4px;
+            background-color: #1ED760;
+            transition: background-color 0.2s;
+        }
+        .upload-link:hover {
+            background-color: #1AAE44;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Kingify</h1>
+        <a href="/songs/upload" class="upload-link">Upload Another Song</a>
+    </header>
+    <div class="container">
+        <ul style="list-style-type: none; padding: 0;">
+            <% songs.forEach(song => { %>
+                <li class="song-item" onclick="toggleAudio(this)">
+                    <img src="<%= song.cover_image %>" alt="Cover">
+                    <div class="song-info">
+                        <b><%= song.title %></b>
+                        <p><%= song.artist %> - <%= song.album %></p>
+                        <audio controls>
+                            <source src="<%= song.file_path %>" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+
+    <script>
+        function toggleAudio(songItem) {
+            var audioElement = songItem.querySelector('audio');
+
+            if (audioElement.style.display === "none" || audioElement.style.display === "") {
+                var allAudioElements = document.querySelectorAll('audio');
+                allAudioElements.forEach(function(audio) {
+                    audio.style.display = "none";
+                    audio.pause(); 
+                });
+
+                audioElement.style.display = "block";
+                audioElement.play();
+            } else {
+                audioElement.style.display = "none";
+                audioElement.pause();
+            }
+        }
+    </script>
+</body>
+</html>
